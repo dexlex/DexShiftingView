@@ -9,8 +9,8 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/dexpageradapterlib" />
-            <option value="$PROJECT_DIR$/dexpageradaptersample" />
+            <option value="$PROJECT_DIR$/dexshiftingviewlib" />
+            <option value="$PROJECT_DIR$/dexshiftingviewsample" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -2,9 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DexPagerAdapter.iml" filepath="$PROJECT_DIR$/DexPagerAdapter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dexpageradapterlib/dexpageradapterlib.iml" filepath="$PROJECT_DIR$/dexpageradapterlib/dexpageradapterlib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dexpageradaptersample/dexpageradaptersample.iml" filepath="$PROJECT_DIR$/dexpageradaptersample/dexpageradaptersample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DexShiftingView.iml" filepath="$PROJECT_DIR$/DexShiftingView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dexshiftingviewlib/dexshiftingviewlib.iml" filepath="$PROJECT_DIR$/dexshiftingviewlib/dexshiftingviewlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dexshiftingviewlib/dexshiftingviewlib.iml" filepath="$PROJECT_DIR$/dexshiftingviewlib/dexshiftingviewlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dexshiftingviewsample/dexshiftingviewsample.iml" filepath="$PROJECT_DIR$/dexshiftingviewsample/dexshiftingviewsample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dexshiftingviewsample/dexshiftingviewsample.iml" filepath="$PROJECT_DIR$/dexshiftingviewsample/dexshiftingviewsample.iml" />
     </modules>
   </component>
 </project>

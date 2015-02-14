@@ -1,1 +1,1 @@
-include  ':dexpageradapterlib',':dexpageradaptersample'
+include  ':dexshiftingviewlib',':dexshiftingviewsample'

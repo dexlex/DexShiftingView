@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DexShiftingView</string>
+    <string name="menu_share">Share</string>
+    <string name="action_settings">Settings</string>
+    <string name="sample_text">Lorem ipsum dolor sit amet, consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+
+
+    <string name="google_plus">https://plus.google.com/u/0/+DiegoGrancini/posts</string>
+    <string name="twitter">https://twitter.com/DiegoGrancini</string>
+    <string name="linked_in">http://it.linkedin.com/in/diegograncini</string>
+    <string name="github">https://github.com/dexlex/DexMovingImageView</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+</resources>
