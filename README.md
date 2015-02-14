@@ -1,21 +1,12 @@
-# ![Logo](/assets/images/dmiv.png) exShiftingView
+# ![Logo](/assets/images/dsv.png) exShiftingView
 
-DSV aims to provide a flexible and customizable instrument for
-
-![Screenshot](/assets/images/dsv_screenshot.gif)
+DSV aims to provide a flexible and customizable instrument for a parallax effect.
 
 # Features
  * Android 1.5+ support
 
 # Downloads
 [![Demo app](assets/images/android-app-on-google-play.png)](https://play.google.com/store/apps/details?id=it.dex.dexshiftingview)
-
-![Screenshot](/assets/screenshot/home.png)
-![Screenshot](/assets/screenshot/grid.png)
-![Screenshot](/assets/screenshot/menu.png)
-![Screenshot](/assets/screenshot/scroll.png)
-![Screenshot](/assets/screenshot/move_tester.png)
-![Screenshot](/assets/screenshot/move_tester_open.png)
 
 # Setup
 
