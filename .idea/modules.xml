@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DexShiftingView.iml" filepath="$PROJECT_DIR$/DexShiftingView.iml" />
       <module fileurl="file://$PROJECT_DIR$/dexshiftingviewlib/dexshiftingviewlib.iml" filepath="$PROJECT_DIR$/dexshiftingviewlib/dexshiftingviewlib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dexshiftingviewlib/dexshiftingviewlib.iml" filepath="$PROJECT_DIR$/dexshiftingviewlib/dexshiftingviewlib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/dexshiftingviewsample/dexshiftingviewsample.iml" filepath="$PROJECT_DIR$/dexshiftingviewsample/dexshiftingviewsample.iml" />
       <module fileurl="file://$PROJECT_DIR$/dexshiftingviewsample/dexshiftingviewsample.iml" filepath="$PROJECT_DIR$/dexshiftingviewsample/dexshiftingviewsample.iml" />
     </modules>
   </component>
