@@ -1,4 +1,4 @@
-# ![Logo](/assets/images/dsv.png) exShiftingView
+# ![Logo](/assets/images/dsv.png) DexShiftingView
 
 DSV aims to provide a flexible and customizable instrument for a parallax effect.
 
