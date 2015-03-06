@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,11 +14,14 @@ import android.view.ViewConfiguration;
 
 import it.dex.dexshiftingview.R;
 import it.dex.dexshiftingview.data.Section;
+import it.dex.dexshiftingview.fragment.DexScrollingFragment;
+import it.dex.dexshiftingview.fragment.DexShiftingFragment;
+import it.dex.dexshiftingview.fragments.ContentFragment;
+import it.dex.dexshiftingview.fragments.ImageFragment;
 import it.dex.dexshiftingview.fragments.NavigationDrawerFragment;
-import it.dex.dexshiftingview.fragments.ViewPagerFragment;
 
 
-public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends DexShiftingActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
     private NavigationDrawerFragment navigationDrawerFragment;
 
 
@@ -36,6 +38,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         if (savedInstanceState == null) {
             navigationDrawerFragment.selectItem(1);
         }
+    }
+
+    @Override
+    protected DexScrollingFragment getScrollingFragment() {
+        return ContentFragment.newInstance();
+    }
+
+    @Override
+    protected DexShiftingFragment getShiftingFragment() {
+        return ImageFragment.newInstance();
     }
 
     private void addSystemBarMargin(View view) {
@@ -97,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onNavigationDrawerItemSelected(Section section) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, ViewPagerFragment.newInstance(section.getSections())).commit();
+        //TODO Develop app navigation
     }
 
     @Override

@@ -9,7 +9,7 @@ android {
     buildToolsVersion '21.1.2'
 
     defaultConfig {
-        minSdkVersion 4
+        minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "0.1"
@@ -22,8 +22,8 @@ android {
     }
 }
 
-def siteUrl = 'https://github.com/dexlex/DexShiftingView'
-def gitUrl = 'https://github.com/dexlex/DexShiftingView.git'
+def siteUrl = 'https://github.com/dexlex/it.dex.dexshiftingview.DexShiftingView'
+def gitUrl = 'https://github.com/dexlex/it.dex.dexshiftingview.DexShiftingView.git'
 group = "it.dex.dexshiftingview"
 
 install {
@@ -32,7 +32,7 @@ install {
             project {
                 packaging 'aar'
 
-                name 'DexShiftingView'
+                name 'it.dex.dexshiftingview.DexShiftingView'
                 url siteUrl
 
                 licenses {
@@ -81,6 +81,8 @@ artifacts {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:21.0.3'
+    compile 'com.android.support:recyclerview-v7:21.0.3'
 }
 
 Properties properties = new Properties()
@@ -93,7 +95,7 @@ bintray {
     configurations = ['archives']
     pkg {
         repo = "maven"
-        name = "DexShiftingView"
+        name = "it.dex.dexshiftingview.DexShiftingView"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
         licenses = ["Apache-2.0"]

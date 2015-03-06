@@ -1,4 +1,4 @@
-# ![Logo](/assets/images/dsv.png) DexShiftingView
+# ![Logo](/assets/images/dsv.png) it.dex.dexshiftingview.DexShiftingView
 
 DSV aims to provide a flexible and customizable instrument for a parallax effect.
 
@@ -10,7 +10,7 @@ DSV aims to provide a flexible and customizable instrument for a parallax effect
 
 # Setup
 
-DexShiftingView is pushed to Maven Central as an AAR. Add the following to build.gradle.
+it.dex.dexshiftingview.DexShiftingView is pushed to Maven Central as an AAR. Add the following to build.gradle.
 
 ```gradle
     dependencies {
