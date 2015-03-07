@@ -74,6 +74,4 @@ public abstract class DexScrollingFragment extends Fragment implements ViewTreeO
 //                onScrollChangedListener.onScrollChanged(recyclerView.getScrollY());
 //            }
     }
-
-    public abstract void setPadding(int padding);
 }

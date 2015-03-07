@@ -16,7 +16,6 @@ import it.dex.dexshiftingview.fragment.DexScrollingFragment;
 public class ContentFragment extends DexScrollingFragment {
     private RecyclerView recyclerView;
     private TestAdapter testAdapter;
-    private int firstItemHeight = 600;
 
     public static ContentFragment newInstance() {
         ContentFragment contentFragment = new ContentFragment();
@@ -35,19 +34,12 @@ public class ContentFragment extends DexScrollingFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         testAdapter = new TestAdapter();
         recyclerView.setAdapter(testAdapter);
-        recyclerView.setPadding(0, firstItemHeight, 0, 0);
+        recyclerView.setPadding(0, 600, 0, 0);
     }
 
     @Override
     protected View getScrollableView() {
         return recyclerView;
-    }
-
-    @Override
-    public void setPadding(int padding) {
-        firstItemHeight = padding;
-        testAdapter.notifyDataSetChanged();
-        recyclerView.setPadding(0, firstItemHeight, 0, 0);
     }
 
     private class TestViewHolder extends RecyclerView.ViewHolder {
@@ -61,19 +53,7 @@ public class ContentFragment extends DexScrollingFragment {
 
         @Override
         public TestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//            switch (viewType) {
-//                case 0:
-//                    View view = new View(getActivity());
-//                    view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, firstItemHeight));
-//                    return new TestViewHolder(view);
-//                default:
             return new TestViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.adapter_test, parent, false));
-//            }
-        }
-
-        @Override
-        public int getItemViewType(int position) {
-            return position;
         }
 
         @Override

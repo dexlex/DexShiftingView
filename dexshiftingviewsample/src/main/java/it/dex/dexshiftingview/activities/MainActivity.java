@@ -15,9 +15,7 @@ import android.view.ViewConfiguration;
 import it.dex.dexshiftingview.R;
 import it.dex.dexshiftingview.data.Section;
 import it.dex.dexshiftingview.fragment.DexScrollingFragment;
-import it.dex.dexshiftingview.fragment.DexShiftingFragment;
 import it.dex.dexshiftingview.fragments.ContentFragment;
-import it.dex.dexshiftingview.fragments.ImageFragment;
 import it.dex.dexshiftingview.fragments.NavigationDrawerFragment;
 
 
@@ -41,13 +39,8 @@ public class MainActivity extends DexShiftingActivity implements NavigationDrawe
     }
 
     @Override
-    protected DexScrollingFragment getScrollingFragment() {
+    protected DexScrollingFragment instantiateScrollingFragment() {
         return ContentFragment.newInstance();
-    }
-
-    @Override
-    protected DexShiftingFragment getShiftingFragment() {
-        return ImageFragment.newInstance();
     }
 
     private void addSystemBarMargin(View view) {
