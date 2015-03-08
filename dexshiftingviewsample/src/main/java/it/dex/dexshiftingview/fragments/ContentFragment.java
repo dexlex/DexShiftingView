@@ -34,7 +34,8 @@ public class ContentFragment extends DexScrollingFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         testAdapter = new TestAdapter();
         recyclerView.setAdapter(testAdapter);
-        recyclerView.setPadding(0, 600, 0, 0);
+//        recyclerView.setPadding(0, 600, 0, 0);
+        recyclerView.setY(600);
     }
 
     @Override

@@ -15,6 +15,7 @@ import android.widget.ScrollView;
  */
 public abstract class DexScrollingFragment extends Fragment implements ViewTreeObserver.OnScrollChangedListener {
     private OnScrollChangedListener onScrollChangedListener;
+    private float currentScroll = 0;
 
     public interface OnScrollChangedListener {
         public void onScrollChanged(float scroll);
@@ -39,7 +40,9 @@ public abstract class DexScrollingFragment extends Fragment implements ViewTreeO
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                onScrollChangedListener.onScrollChanged(-dy);
+                currentScroll -= dy;
+                onScrollChangedListener.onScrollChanged(currentScroll);
+                recyclerView.setY(600 + currentScroll);
             }
         });
     }

@@ -14,7 +14,6 @@ import it.dex.dexshiftingviewlib.R;
 
 public abstract class DexShiftingActivity extends ActionBarActivity implements DexScrollingFragment.OnScrollChangedListener {
     private DexScrollingFragment dexScrollingFragment;
-    private float currentScroll = 0;
     private List<View> shiftingViews = new ArrayList<>();
 
     @Override
@@ -24,9 +23,9 @@ public abstract class DexShiftingActivity extends ActionBarActivity implements D
         try {
             contentFrame = (FrameLayout) view.findViewById(R.id.content);
             if (contentFrame == null)
-                throw new IllegalArgumentException("MainLayout must contain a content named FrameLayout to add fragments");
+                throw new IllegalArgumentException("MainLayout must contain a content named FrameLayout to add fragments to");
         } catch (ClassCastException e) {
-            throw new IllegalArgumentException("MainLayout must contain a content named FrameLayout to add fragments");
+            throw new IllegalArgumentException("MainLayout must contain a content named FrameLayout to add fragments to");
         }
         super.setContentView(view);
         contentFrame.addView(LayoutInflater.from(this).inflate(R.layout.activity_dexshifting, null));
@@ -52,10 +51,9 @@ public abstract class DexShiftingActivity extends ActionBarActivity implements D
 
     @Override
     public void onScrollChanged(float scroll) {
-        currentScroll += scroll;
         for (View v : shiftingViews) {
-            v.setY(currentScroll / (shiftingViews.indexOf(v) + 1) / 2);
-            v.setX(currentScroll / (shiftingViews.indexOf(v) + 1) / 2);
+            v.setY(scroll / (shiftingViews.indexOf(v) + 1) / 2);
+            v.setX(scroll / (shiftingViews.indexOf(v) + 1) / 2);
         }
     }
 }
