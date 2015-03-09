@@ -1,21 +1,28 @@
 package it.dex.dexshiftingview.fragment;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
-import android.widget.ExpandableListView;
-import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.ScrollView;
+import android.view.ViewGroup;
+
+import it.dex.dexshiftingview.DexShiftingRecyclerView;
+import it.dex.dexshiftingviewlib.R;
 
 /**
  * DexShiftingView created by Diego on 06/03/2015.
  */
-public abstract class DexScrollingFragment extends Fragment implements ViewTreeObserver.OnScrollChangedListener {
+public abstract class DexScrollingFragment extends Fragment implements DexShiftingRecyclerView.OnShift {
     private OnScrollChangedListener onScrollChangedListener;
-    private float currentScroll = 0;
+    protected DexShiftingRecyclerView recyclerView;
+    private float currentScroll;
+    private DexShiftingRecyclerView.OnShift onShift;
+
+    public void setOnShift(DexShiftingRecyclerView.OnShift onShift) {
+        this.onShift = onShift;
+    }
 
     public interface OnScrollChangedListener {
         public void onScrollChanged(float scroll);
@@ -32,49 +39,36 @@ public abstract class DexScrollingFragment extends Fragment implements ViewTreeO
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-//        if (getView() != null)
-//            getView().getViewTreeObserver().addOnScrollChangedListener(this);
-        ((RecyclerView)getScrollableView()).setOnScrollListener(new RecyclerView.OnScrollListener() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_scrolling, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recyclerView = (DexShiftingRecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 currentScroll -= dy;
                 onScrollChangedListener.onScrollChanged(currentScroll);
-                recyclerView.setY(600 + currentScroll);
+                onShift(dy);
             }
         });
+        recyclerView.setOnShift(this);
+        recyclerView.setPadding(0, 600, 0, 0);
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        if (getView() != null)
-//            getView().getViewTreeObserver().removeOnScrollChangedListener(this);
-//    }
-
-    protected abstract View getScrollableView();
+    @Override
+    public float getCurrentTop() {
+        return 600 + currentScroll;
+    }
 
     @Override
-    public void onScrollChanged() {
-//        View scrollableView = getScrollableView();
-//        if (scrollableView != null)
-//            if (scrollableView instanceof ScrollView) {
-//                ScrollView scrollView = (ScrollView) scrollableView;
-//                onScrollChangedListener.onScrollChanged(scrollView.getScrollY());
-//            } else if (scrollableView instanceof ListView) {
-//                ListView listView = (ListView) scrollableView;
-//                onScrollChangedListener.onScrollChanged(listView.getScrollY());
-//            } else if (scrollableView instanceof GridView) {
-//                GridView gridView = (GridView) scrollableView;
-//                onScrollChangedListener.onScrollChanged(gridView.getScrollY());
-//            } else if (scrollableView instanceof ExpandableListView) {
-//                ExpandableListView expandableListView = (ExpandableListView) scrollableView;
-//                onScrollChangedListener.onScrollChanged(expandableListView.getScrollY());
-//            } else if (scrollableView instanceof RecyclerView) {
-//                RecyclerView recyclerView = (RecyclerView) scrollableView;
-//                onScrollChangedListener.onScrollChanged(recyclerView.getScrollY());
-//            }
+    public void onShift(float shift) {
+        //TODO Scroll recyclerview to shift
+        onShift.onShift(shift);
     }
 }

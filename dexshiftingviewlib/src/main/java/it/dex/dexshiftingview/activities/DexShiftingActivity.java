@@ -1,5 +1,6 @@
 package it.dex.dexshiftingview.activities;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,7 @@ import it.dex.dexshiftingview.fragment.DexScrollingFragment;
 import it.dex.dexshiftingviewlib.R;
 
 public abstract class DexShiftingActivity extends ActionBarActivity implements DexScrollingFragment.OnScrollChangedListener {
-    private DexScrollingFragment dexScrollingFragment;
+    private Fragment dexScrollingFragment;
     private List<View> shiftingViews = new ArrayList<>();
 
     @Override
@@ -35,7 +36,7 @@ public abstract class DexShiftingActivity extends ActionBarActivity implements D
         shiftingViews.add(findViewById(R.id.shifting_view));
         shiftingViews.add(findViewById(R.id.shifting_view1));
         shiftingViews.add(findViewById(R.id.shifting_view2));
-        shiftingViews.get(0).setOnClickListener(new View.OnClickListener() {
+        shiftingViews.get(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(DexShiftingActivity.this, "Click", Toast.LENGTH_LONG).show();
@@ -43,9 +44,9 @@ public abstract class DexShiftingActivity extends ActionBarActivity implements D
         });
     }
 
-    protected abstract DexScrollingFragment instantiateScrollingFragment();
+    protected abstract Fragment instantiateScrollingFragment();
 
-    public DexScrollingFragment getDexScrollingFragment() {
+    public Fragment getDexScrollingFragment() {
         return dexScrollingFragment;
     }
 

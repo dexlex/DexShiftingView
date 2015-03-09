@@ -1,5 +1,5 @@
 package it.dex.dexshiftingview.activities;
-
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.net.Uri;
@@ -17,6 +17,7 @@ import it.dex.dexshiftingview.data.Section;
 import it.dex.dexshiftingview.fragment.DexScrollingFragment;
 import it.dex.dexshiftingview.fragments.ContentFragment;
 import it.dex.dexshiftingview.fragments.NavigationDrawerFragment;
+import it.dex.dexshiftingview.fragments.ViewPagerFragment;
 
 
 public class MainActivity extends DexShiftingActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -39,8 +40,8 @@ public class MainActivity extends DexShiftingActivity implements NavigationDrawe
     }
 
     @Override
-    protected DexScrollingFragment instantiateScrollingFragment() {
-        return ContentFragment.newInstance();
+    protected Fragment instantiateScrollingFragment() {
+        return ViewPagerFragment.newInstance();
     }
 
     private void addSystemBarMargin(View view) {

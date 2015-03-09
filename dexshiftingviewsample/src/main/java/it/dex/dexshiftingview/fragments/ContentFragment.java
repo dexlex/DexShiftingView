@@ -14,7 +14,6 @@ import it.dex.dexshiftingview.fragment.DexScrollingFragment;
  * DexShiftingView created by Diego on 06/03/2015.
  */
 public class ContentFragment extends DexScrollingFragment {
-    private RecyclerView recyclerView;
     private TestAdapter testAdapter;
 
     public static ContentFragment newInstance() {
@@ -23,24 +22,11 @@ public class ContentFragment extends DexScrollingFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_content, container, false);
-    }
-
-    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         testAdapter = new TestAdapter();
         recyclerView.setAdapter(testAdapter);
-//        recyclerView.setPadding(0, 600, 0, 0);
-        recyclerView.setY(600);
-    }
-
-    @Override
-    protected View getScrollableView() {
-        return recyclerView;
     }
 
     private class TestViewHolder extends RecyclerView.ViewHolder {
