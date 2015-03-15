@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">DexShiftingViewLib</string>
-    <string name="title_activity_dex_shifting">DexShiftingActivity</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-</resources>

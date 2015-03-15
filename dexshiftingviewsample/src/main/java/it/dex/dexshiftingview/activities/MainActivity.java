@@ -1,12 +1,15 @@
 package it.dex.dexshiftingview.activities;
-import android.support.v4.app.Fragment;
+
 import android.content.Intent;
-import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,20 +17,21 @@ import android.view.ViewConfiguration;
 
 import it.dex.dexshiftingview.R;
 import it.dex.dexshiftingview.data.Section;
-import it.dex.dexshiftingview.fragment.DexScrollingFragment;
 import it.dex.dexshiftingview.fragments.ContentFragment;
 import it.dex.dexshiftingview.fragments.NavigationDrawerFragment;
-import it.dex.dexshiftingview.fragments.ViewPagerFragment;
+import it.dex.dexshiftingview.interfaces.OnShiftListener;
 
 
-public class MainActivity extends DexShiftingActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, OnShiftListener {
     private NavigationDrawerFragment navigationDrawerFragment;
-
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         navigationDrawerFragment = (NavigationDrawerFragment)
                 getFragmentManager().findFragmentById(R.id.left_drawer);
         addSystemBarMargin(navigationDrawerFragment.getView());
@@ -39,14 +43,9 @@ public class MainActivity extends DexShiftingActivity implements NavigationDrawe
         }
     }
 
-    @Override
-    protected Fragment instantiateScrollingFragment() {
-        return ViewPagerFragment.newInstance();
-    }
-
     private void addSystemBarMargin(View view) {
         DrawerLayout.LayoutParams lp = (DrawerLayout.LayoutParams) view.getLayoutParams();
-        lp.setMargins(lp.leftMargin, lp.topMargin + getStatusBarHeight() + getActionBarHeight(), lp.rightMargin, lp.bottomMargin + getNavigationBarHeight());
+        lp.setMargins(lp.leftMargin, lp.topMargin + getStatusBarHeight(), lp.rightMargin, lp.bottomMargin + getNavigationBarHeight());
         view.setLayoutParams(lp);
     }
 
@@ -68,16 +67,6 @@ public class MainActivity extends DexShiftingActivity implements NavigationDrawe
         }
         return result;
     }
-
-    public int getActionBarHeight() {
-        int mActionBarSize = 0;
-        final TypedArray styledAttributes = getTheme().obtainStyledAttributes(
-                new int[]{android.R.attr.actionBarSize});
-        mActionBarSize = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-        return mActionBarSize;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -104,6 +93,7 @@ public class MainActivity extends DexShiftingActivity implements NavigationDrawe
     @Override
     public void onNavigationDrawerItemSelected(Section section) {
         //TODO Develop app navigation
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, ContentFragment.newInstance()).commit();
     }
 
     @Override
@@ -126,5 +116,25 @@ public class MainActivity extends DexShiftingActivity implements NavigationDrawe
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(getResources().getString(urlRes)));
         startActivity(intent);
+    }
+
+    @Override
+    public void onShift(int shift, float topDistance, float progress) {
+        if (progress <= 1) {
+            ColorDrawable drawable = new ColorDrawable(getResources().getColor(R.color.primary));
+            drawable.setAlpha((int) (progress * 255));
+            getSupportActionBar().setBackgroundDrawable(drawable);
+        }
+        if (topDistance < toolbar.getHeight()) {
+            toolbar.setY(-toolbar.getHeight() + topDistance + getStatusBarHeight());
+        } else {
+            if (toolbar.getY() != getStatusBarHeight())
+                toolbar.setY(getStatusBarHeight());
+        }
+        if (progress <= 1) {
+            int color = getResources().getColor(R.color.secondary);
+            toolbar.setTitleTextColor(Color.argb((int) (progress * 255), Color.red(color), Color.green(color), Color.blue(color)));
+        }
+
     }
 }

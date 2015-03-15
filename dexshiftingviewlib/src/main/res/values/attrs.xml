@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="weight" format="float" />
+    <attr name="initial_top_margin" format="dimension|reference" />
+    <declare-styleable name="DexShiftingLayout">
+        <attr name="weight" />
+        <attr name="initial_top_margin" />
+    </declare-styleable>
+    <declare-styleable name="DexShiftingPagerLayout">
+        <attr name="weight" />
+        <attr name="initial_top_margin" />
+    </declare-styleable>
+</resources>
