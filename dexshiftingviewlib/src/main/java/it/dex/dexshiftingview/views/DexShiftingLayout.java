@@ -48,21 +48,7 @@ public class DexShiftingLayout extends AbsShiftingLayout {
     protected View setupDefaultScrollingView(LayoutInflater inflater, View container) {
         recyclerView = new RecyclerView(getContext());
         recyclerView.setClipToPadding(false);
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                currentScroll += dy;
-                for (int i = 0; i < getChildCount(); i++) {
-                    View v = getChildAt(i);
-                    if (!(v instanceof RecyclerView) && ((LayoutParams) v.getLayoutParams()).getWeight() != 0)
-                        v.setY(-currentScroll / ((LayoutParams) v.getLayoutParams()).getWeight());
-                }
-                if (onShiftListener != null)
-                    onShiftListener.onShift(currentScroll, getInitialTopMargin() - currentScroll, currentScroll / getInitialTopMargin());
-            }
-        });
+        setScrollListener(recyclerView);
         return recyclerView;
     }
 
@@ -72,5 +58,25 @@ public class DexShiftingLayout extends AbsShiftingLayout {
 
     public void setRecyclerView(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
+        setScrollListener(recyclerView);
+    }
+
+    private void setScrollListener(RecyclerView recyclerView) {
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                boolean isScrollingUpwards = dy > 0;
+                currentScroll += dy;
+                for (int i = 0; i < getChildCount(); i++) {
+                    View v = getChildAt(i);
+                    if (!(v instanceof RecyclerView) && ((LayoutParams) v.getLayoutParams()).getWeight() != 0)
+                        v.setY(-currentScroll / ((LayoutParams) v.getLayoutParams()).getWeight());
+                }
+                if (onShiftListener != null)
+                    onShiftListener.onShift(dy, currentScroll, getInitialTopMargin() - currentScroll, currentScroll / getInitialTopMargin(), isScrollingUpwards);
+            }
+        });
     }
 }

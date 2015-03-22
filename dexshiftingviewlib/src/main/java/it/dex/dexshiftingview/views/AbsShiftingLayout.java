@@ -60,7 +60,7 @@ public abstract class AbsShiftingLayout extends FrameLayout {
         View scrollingView = getScrollingView();
         if (scrollingView == null)
             scrollingView = setupDefaultScrollingView(LayoutInflater.from(getContext()), this);
-        scrollingView.setPadding(0, (int) getInitialTopMargin(), 0, 0);
+//        scrollingView.setPadding(0, (int) getInitialTopMargin(), 0, 0);
         addView(scrollingView);
     }
 
