@@ -9,9 +9,8 @@ import android.support.v7.widget.RecyclerView;
  */
 public abstract class DexRecyclerViewFragment extends Fragment {
     private int initialTopMargin;
-    private boolean isInitialTopMarginSet = false;
-    private int initialScroll = 0;
-    private boolean isInitialScrollSet = false;
+    private boolean isInitialTopMarginSet = false, isListenerSet = false;
+    private RecyclerView.OnScrollListener onScrollListener;
 
     public abstract RecyclerView getRecyclerView();
 
@@ -22,8 +21,13 @@ public abstract class DexRecyclerViewFragment extends Fragment {
             throw new IllegalStateException("You must return a non null RecyclerView instance in the getRecyclerView() method");
         if (!isInitialTopMarginSet)
             setInitialTopMargin(initialTopMargin);
-        if (!isInitialScrollSet)
-            scrollBy(initialScroll);
+        if (!isListenerSet)
+            setOnScrollListener(onScrollListener);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     public void setInitialTopMargin(int initialTopMargin) {
@@ -35,15 +39,11 @@ public abstract class DexRecyclerViewFragment extends Fragment {
         }
     }
 
-    public void setInitialScroll(int initialScroll) {
-        this.initialScroll = initialScroll;
+    public void setOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
         if (getRecyclerView() != null) {
-            scrollBy(initialScroll);
-            isInitialScrollSet = true;
+            getRecyclerView().setOnScrollListener(onScrollListener);
+            isListenerSet = true;
         }
-    }
-
-    public void scrollBy(int initialScroll) {
-        getRecyclerView().scrollBy(0, initialScroll);
     }
 }

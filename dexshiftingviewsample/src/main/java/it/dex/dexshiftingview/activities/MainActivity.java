@@ -10,6 +10,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.view.ViewConfiguration;
 import it.dex.dexshiftingview.R;
 import it.dex.dexshiftingview.data.Section;
 import it.dex.dexshiftingview.fragments.ContentFragment;
+import it.dex.dexshiftingview.fragments.ContentPagerFragment;
 import it.dex.dexshiftingview.fragments.NavigationDrawerFragment;
 import it.dex.dexshiftingview.interfaces.OnShiftListener;
 
@@ -93,7 +95,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public void onNavigationDrawerItemSelected(Section section) {
         //TODO Develop app navigation
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, ContentFragment.newInstance()).commit();
+        ContentPagerFragment contentPagerFragment = ContentPagerFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, contentPagerFragment).commit();
     }
 
     @Override
@@ -119,22 +122,12 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     }
 
     @Override
-    public void onShift(int shift, float topDistance, float progress) {
-        if (progress <= 1) {
-            ColorDrawable drawable = new ColorDrawable(getResources().getColor(R.color.primary));
-            drawable.setAlpha((int) (progress * 255));
-            getSupportActionBar().setBackgroundDrawable(drawable);
-        }
-        if (topDistance < toolbar.getHeight()) {
-            toolbar.setY(-toolbar.getHeight() + topDistance + getStatusBarHeight());
-        } else {
-            if (toolbar.getY() != getStatusBarHeight())
-                toolbar.setY(getStatusBarHeight());
-        }
-        if (progress <= 1) {
-            int color = getResources().getColor(R.color.secondary);
-            toolbar.setTitleTextColor(Color.argb((int) (progress * 255), Color.red(color), Color.green(color), Color.blue(color)));
-        }
+    public void onShift(int dy, int shift, float topDistance, float progress, boolean isScrollingUpwards) {
 
+    }
+
+    @Override
+    public Toolbar getToolbar() {
+        return toolbar;
     }
 }

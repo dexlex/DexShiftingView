@@ -6,12 +6,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v7.widget.Toolbar;
 
-import it.dex.dexshiftingviewlib.R;
-
 /**
  * DexShiftingView created by Diego on 21/03/2015.
  */
 public class DexToolbarManager {
+    private int toolbarBackgroundColor = Color.rgb(0, 0, 0);
+    private int toolbarTitleColor = Color.rgb(255, 255, 255);
     private Context context;
     private Toolbar toolbar;
 
@@ -20,6 +20,19 @@ public class DexToolbarManager {
         this.context = context;
     }
 
+    public DexToolbarManager(Context context, Toolbar toolbar, int toolbarBackgroundColor, int toolbarTitleColor) {
+        this(context, toolbar);
+        setToolbarBackgroundColor(toolbarBackgroundColor);
+        setToolbarTitleColor(toolbarTitleColor);
+    }
+
+    public void setToolbarBackgroundColor(int toolbarBackgroundColor) {
+        this.toolbarBackgroundColor = toolbarBackgroundColor;
+    }
+
+    public void setToolbarTitleColor(int toolbarTitleColor) {
+        this.toolbarTitleColor = toolbarTitleColor;
+    }
 
     public void update(int dy, int shift, float topDistance, float progress, boolean isScrollingUpwards) {
         updateTitleBackground(progress);
@@ -28,7 +41,7 @@ public class DexToolbarManager {
     }
 
     private void updateTitleBackground(float progress) {
-        ColorDrawable drawable = new ColorDrawable(context.getResources().getColor(R.color.accent_material_dark));
+        ColorDrawable drawable = new ColorDrawable(toolbarBackgroundColor);
         if (progress <= 1) {
             drawable.setAlpha((int) (progress * 255));
         } else {
@@ -41,24 +54,17 @@ public class DexToolbarManager {
     }
 
     private void updateTitleY(int dy, float topDistance, boolean isScrollingUpwards) {
-        boolean isToolbarVisible = topDistance < toolbar.getHeight() + getStatusBarHeight();
         if (isScrollingUpwards) {
-            if (isToolbarVisible) {
-                if (topDistance < toolbar.getHeight()) {
-                    toolbar.setY(-toolbar.getHeight() + topDistance + getStatusBarHeight());
-                } else {
-                    if (toolbar.getY() != getStatusBarHeight())
-                        toolbar.setY(getStatusBarHeight());
-                }
+            if (topDistance < toolbar.getHeight()) {
+                toolbar.setY(toolbar.getY() - dy);
             }
         } else {
             if (toolbar.getY() < -toolbar.getHeight())
                 toolbar.setY(-toolbar.getHeight());
-            if (toolbar.getY() < getStatusBarHeight()) {
+            else if (toolbar.getY() < getStatusBarHeight()) {
                 toolbar.setY(toolbar.getY() - dy);
-            } else {
-                if (toolbar.getY() != getStatusBarHeight())
-                    toolbar.setY(getStatusBarHeight());
+            } else if (toolbar.getY() != getStatusBarHeight()) {
+                toolbar.setY(getStatusBarHeight());
             }
         }
     }
@@ -70,8 +76,7 @@ public class DexToolbarManager {
         } else {
             alpha = 255;
         }
-        int color = context.getResources().getColor(R.color.bright_foreground_material_dark);
-        toolbar.setTitleTextColor(Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color)));
+        toolbar.setTitleTextColor(Color.argb(alpha, Color.red(toolbarTitleColor), Color.green(toolbarTitleColor), Color.blue(toolbarTitleColor)));
     }
 
     public int getStatusBarHeight() {

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.VideoView;
 
 import it.dex.dexshiftingview.R;
+import it.dex.dexshiftingview.adapter.TestAdapter;
 import it.dex.dexshiftingview.interfaces.OnShiftListener;
 import it.dex.dexshiftingview.views.DexShiftingLayout;
 
@@ -68,29 +69,5 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
                 swipeRefreshLayout.setRefreshing(false);
             }
         }, 2000);
-    }
-
-    private class TestViewHolder extends RecyclerView.ViewHolder {
-
-        public TestViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    private class TestAdapter extends RecyclerView.Adapter<TestViewHolder> {
-
-        @Override
-        public TestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new TestViewHolder(LayoutInflater.from(getActivity()).inflate(R.layout.adapter_test, parent, false));
-        }
-
-        @Override
-        public void onBindViewHolder(TestViewHolder holder, int position) {
-        }
-
-        @Override
-        public int getItemCount() {
-            return 30;
-        }
     }
 }
