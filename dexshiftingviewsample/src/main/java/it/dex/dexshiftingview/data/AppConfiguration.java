@@ -27,8 +27,10 @@ public class AppConfiguration {
     private List<Section> sections = new ArrayList<>();
 
     private AppConfiguration() {
-        sections.add(new Section("DexPagerAdapter"));
-        sections.add(new Section("Color Changer", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.ADDER));
+        sections.add(new Section("DexShiftingLayout"));
+        sections.add(new Section("VideoView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.RECYCLER_VIEW));
+        sections.add(new Section("DexShiftingPagerLayout"));
+        sections.add(new Section("VideoView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.VIEW_PAGER));
     }
 
     public static AppConfiguration get() {

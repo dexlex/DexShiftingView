@@ -52,6 +52,7 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary));
         DexShiftingLayout dexShiftingView = (DexShiftingLayout) view.findViewById(R.id.dexshiftingview);
         dexShiftingView.setOnShiftListener(onShiftListener);
+        dexShiftingView.setToolbar(onShiftListener.getToolbar());
         RecyclerView recyclerView = dexShiftingView.getScrollingView();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new TestAdapter());

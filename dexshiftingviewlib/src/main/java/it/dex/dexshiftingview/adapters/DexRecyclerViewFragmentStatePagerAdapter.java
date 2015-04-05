@@ -13,7 +13,7 @@ import it.dex.dexshiftingview.fragments.DexRecyclerViewFragment;
  */
 public abstract class DexRecyclerViewFragmentStatePagerAdapter<T extends DexRecyclerViewFragment> extends DexFragmentStatePagerAdapter<T> {
     private SparseArray<Integer> currentScrolls = new SparseArray<>();
-    private int initialTopMargin;
+    private int initialTopMargin, initialScroll;
     private RecyclerView.OnScrollListener onScrollListener;
     private boolean onScrollListenerSet = false;
 
@@ -34,7 +34,8 @@ public abstract class DexRecyclerViewFragmentStatePagerAdapter<T extends DexRecy
             fragment.setOnScrollListener(onScrollListener);
             onScrollListenerSet = true;
         }
-        currentScrolls.put(position, 0);
+        fragment.setInitialScroll(initialScroll);
+        currentScrolls.put(position, initialScroll);
         return fragment;
     }
 
@@ -54,5 +55,9 @@ public abstract class DexRecyclerViewFragmentStatePagerAdapter<T extends DexRecy
 
     public void setOnScrollListener(RecyclerView.OnScrollListener onScrollListener) {
         this.onScrollListener = onScrollListener;
+    }
+
+    public void setInitialScroll(int initialScroll) {
+        this.initialScroll = initialScroll;
     }
 }

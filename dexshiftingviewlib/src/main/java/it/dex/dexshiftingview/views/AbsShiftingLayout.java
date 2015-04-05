@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Build;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,13 +14,17 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import it.dex.dexshiftingview.interfaces.OnShiftListener;
+import it.dex.dexshiftingview.utils.DexOnScrollListener;
+import it.dex.dexshiftingview.utils.DexToolbarManager;
 import it.dex.dexshiftingviewlib.R;
 
 /**
  * DexShiftingView created by Diego on 15/03/2015.
  */
 public abstract class AbsShiftingLayout extends FrameLayout {
+    protected DexToolbarManager dexToolbarManager;
     protected OnShiftListener onShiftListener;
+    protected DexOnScrollListener dexOnScrollListener;
     private float initialTopMargin = 600;
     protected int currentScroll = 0;
     private int[] pos = new int[2];
@@ -49,6 +54,7 @@ public abstract class AbsShiftingLayout extends FrameLayout {
             initialTopMargin = a.getDimension(R.styleable.DexShiftingLayout_initial_top_margin, initialTopMargin);
             a.recycle();
         }
+        dexOnScrollListener = new DexOnScrollListener(this);
     }
 
     protected abstract View setupDefaultScrollingView(LayoutInflater inflater, View container);
@@ -60,7 +66,6 @@ public abstract class AbsShiftingLayout extends FrameLayout {
         View scrollingView = getScrollingView();
         if (scrollingView == null)
             scrollingView = setupDefaultScrollingView(LayoutInflater.from(getContext()), this);
-//        scrollingView.setPadding(0, (int) getInitialTopMargin(), 0, 0);
         addView(scrollingView);
     }
 
@@ -138,5 +143,22 @@ public abstract class AbsShiftingLayout extends FrameLayout {
 
     public int getCurrentScroll() {
         return currentScroll;
+    }
+
+    public void setCurrentScroll(int currentScroll) {
+        this.currentScroll = currentScroll;
+    }
+
+    public void setToolbar(Toolbar toolbar) {
+        dexToolbarManager = new DexToolbarManager(getContext(), toolbar);
+        dexToolbarManager.update(0, currentScroll, getInitialTopMargin() - currentScroll, currentScroll / getInitialTopMargin(), false);
+    }
+
+    public DexToolbarManager getDexToolbarManager() {
+        return dexToolbarManager;
+    }
+
+    public OnShiftListener getOnShiftListener() {
+        return onShiftListener;
     }
 }

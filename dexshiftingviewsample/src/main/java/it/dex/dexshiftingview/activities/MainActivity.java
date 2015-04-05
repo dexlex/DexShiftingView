@@ -1,16 +1,14 @@
 package it.dex.dexshiftingview.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -94,9 +92,16 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onNavigationDrawerItemSelected(Section section) {
-        //TODO Develop app navigation
-        ContentPagerFragment contentPagerFragment = ContentPagerFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.content, contentPagerFragment).commit();
+        Fragment fragment = null;
+        switch (section.getSections()) {
+            case RECYCLER_VIEW:
+                fragment = ContentFragment.newInstance();
+                break;
+            case VIEW_PAGER:
+                fragment = ContentPagerFragment.newInstance();
+                break;
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
     }
 
     @Override

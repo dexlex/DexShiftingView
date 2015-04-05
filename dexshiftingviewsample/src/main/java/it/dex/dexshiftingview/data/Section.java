@@ -77,6 +77,6 @@ public class Section implements Serializable {
     }
 
     public enum SECTIONS {
-        ADDER
+        RECYCLER_VIEW, VIEW_PAGER
     }
 }

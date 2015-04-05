@@ -15,14 +15,14 @@ import android.view.View;
 
 import it.dex.dexshiftingview.adapters.DexRecyclerViewFragmentStatePagerAdapter;
 import it.dex.dexshiftingview.fragments.DexRecyclerViewFragment;
+import it.dex.dexshiftingview.utils.DexOnScrollListener;
 import it.dex.dexshiftingview.utils.DexToolbarManager;
 import it.dex.dexshiftingviewlib.R;
 
 /**
  * DexShiftingView created by Diego on 15/03/2015.
  */
-public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPager.OnPageChangeListener {
-    private DexToolbarManager dexToolbarManager;
+public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPager.OnPageChangeListener, DexOnScrollListener.OnScrollListener {
     private ViewPager viewPager;
     private DexRecyclerViewFragmentStatePagerAdapter<DexRecyclerViewFragment> adapter;
 
@@ -51,6 +51,7 @@ public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPag
             setInitialTopMargin(a.getDimension(R.styleable.DexShiftingPagerLayout_initial_top_margin, getInitialTopMargin()));
             a.recycle();
         }
+        dexOnScrollListener.setOnScrollListener(this);
     }
 
     @Override
@@ -70,41 +71,9 @@ public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPag
     public void setAdapter(DexRecyclerViewFragmentStatePagerAdapter<DexRecyclerViewFragment> adapter) {
         this.adapter = adapter;
         adapter.setInitialTopMargin((int) getInitialTopMargin());
-        adapter.setOnScrollListener(onScrollListener);
+        adapter.setOnScrollListener(dexOnScrollListener);
         viewPager.setAdapter(adapter);
     }
-
-    RecyclerView.OnScrollListener onScrollListener = new RecyclerView.OnScrollListener() {
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            currentScroll += dy;
-            for (int i = 0; i < getChildCount(); i++) {
-                View v = getChildAt(i);
-                if (!(v instanceof ViewPager) && ((LayoutParams) v.getLayoutParams()).getWeight() != 0)
-                    v.setY(-currentScroll / ((LayoutParams) v.getLayoutParams()).getWeight());
-            }
-            for (int i = 0; i < adapter.getFragmentSparseArray().size(); i++) {
-                if (adapter.getFragmentSparseArray().keyAt(i) != viewPager.getCurrentItem()) {
-                    DexRecyclerViewFragment fragment = adapter.getFragmentSparseArray().get(adapter.getFragmentSparseArray().keyAt(i));
-                    if (fragment != null && fragment.getRecyclerView() != null && fragment.getRecyclerView().getLayoutManager() != null) {
-                        if (currentScroll <= getInitialTopMargin()) {
-                            fragment.getRecyclerView().scrollBy(0, dy);
-                            SparseArray<Integer> currentScrolls = adapter.getCurrentScrolls();
-                            int key = currentScrolls.keyAt(i);
-                            currentScrolls.put(key, currentScrolls.get(key) + dy);
-                            Log.d("Page: " + key, "NewScroll: " + currentScrolls.get(key) + "");
-                        }
-                    }
-                }
-            }
-            if (dexToolbarManager != null)
-                dexToolbarManager.update(dy, currentScroll, getInitialTopMargin() - currentScroll, currentScroll / getInitialTopMargin(), dy > 0);
-            if (onShiftListener != null)
-                onShiftListener.onShift(dy, currentScroll, getInitialTopMargin() - currentScroll, currentScroll / getInitialTopMargin(), dy > 0);
-        }
-    };
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -118,7 +87,7 @@ public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPag
                 DexRecyclerViewFragment fragment = adapter.getFragmentSparseArray().get(adapter.getFragmentSparseArray().keyAt(i));
                 RecyclerView recyclerView = fragment.getRecyclerView();
                 if (adapter.getFragmentSparseArray().keyAt(i) == position)
-                    recyclerView.setOnScrollListener(onScrollListener);
+                    recyclerView.setOnScrollListener(dexOnScrollListener);
                 else {
                     recyclerView.setOnScrollListener(null);
                     SparseArray<Integer> currentScrolls = adapter.getCurrentScrolls();
@@ -129,7 +98,6 @@ public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPag
                         recyclerView.scrollBy(0, currentScroll - fragmentCurrentScroll);
                         currentScrolls.put(key, currentScroll);
                     }
-                    Log.d("Page " + position + " for position: " + key, "CurrentScroll: " + currentScroll + " FragmentScroll: " + fragmentCurrentScroll + " Change: " + change);
                 }
             }
         }
@@ -142,8 +110,25 @@ public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPag
 
     }
 
-    public void setToolbar(Toolbar toolbar) {
-        dexToolbarManager = new DexToolbarManager(getContext(), toolbar);
-        dexToolbarManager.update(0, currentScroll, getInitialTopMargin() - currentScroll, currentScroll / getInitialTopMargin(), false);
+    @Override
+    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        adapter.setInitialScroll(currentScroll);
+        for (int i = 0; i < adapter.getFragmentSparseArray().size(); i++) {
+            SparseArray<Integer> currentScrolls = adapter.getCurrentScrolls();
+            int key = currentScrolls.keyAt(i);
+            if (adapter.getFragmentSparseArray().keyAt(i) != viewPager.getCurrentItem()) {
+                DexRecyclerViewFragment fragment = adapter.getFragmentSparseArray().get(adapter.getFragmentSparseArray().keyAt(i));
+                if (fragment != null && fragment.getRecyclerView() != null && fragment.getRecyclerView().getLayoutManager() != null) {
+                    if (currentScroll <= getInitialTopMargin()) {
+                        fragment.getRecyclerView().scrollBy(0, dy);
+                        currentScrolls.put(key, currentScrolls.get(key) + dy);
+                    }
+                }
+            } else {
+                if (currentScroll <= getInitialTopMargin()) {
+                    currentScrolls.put(key, currentScrolls.get(key) + dy);
+                }
+            }
+        }
     }
 }
