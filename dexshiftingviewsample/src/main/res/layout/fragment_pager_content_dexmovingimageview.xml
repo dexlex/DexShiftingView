@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<it.dex.dexshiftingview.views.DexShiftingPagerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dex="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dexshiftingview"
+    android:layout_width="match_parent"
+    dex:initial_top_margin="200dp"
+    android:layout_height="match_parent">
+
+    <ImageView
+        dex:weight="5"
+        android:src="@drawable/material"
+        android:scaleType="fitStart"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
+</it.dex.dexshiftingview.views.DexShiftingPagerLayout>
