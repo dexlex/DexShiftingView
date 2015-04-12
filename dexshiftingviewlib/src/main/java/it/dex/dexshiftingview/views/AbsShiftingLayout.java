@@ -150,7 +150,11 @@ public abstract class AbsShiftingLayout extends FrameLayout {
     }
 
     public void setToolbar(Toolbar toolbar) {
-        dexToolbarManager = new DexToolbarManager(getContext(), toolbar);
+        setToolbar(toolbar, 0, 0);
+    }
+
+    public void setToolbar(Toolbar toolbar, int toolbarBackgroundColor, int toolbarTitleColor) {
+        dexToolbarManager = new DexToolbarManager(getContext(), toolbar, toolbarBackgroundColor, toolbarTitleColor);
         dexToolbarManager.update(0, currentScroll, getInitialTopMargin() - currentScroll, currentScroll / getInitialTopMargin(), false);
     }
 

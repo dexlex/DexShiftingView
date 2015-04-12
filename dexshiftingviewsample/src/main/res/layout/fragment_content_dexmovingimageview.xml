@@ -10,11 +10,21 @@
         dex:initial_top_margin="200dp"
         android:layout_height="match_parent">
 
-        <ImageView
-            dex:weight="5"
+        <it.dex.movingimageviewlib.DexMovingImageView
+            android:id="@+id/dex_moving_image_view"
+            android:layout_width="match_parent"
             android:src="@drawable/material"
-            android:layout_width="fill_parent"
-            android:scaleType="fitStart"
-            android:layout_height="fill_parent" />
+            dex:evaluator="timeBased"
+            dex:generator="angled"
+            dex:minZoom="1.75"
+            dex:transition_duration_millis="1000"
+            dex:loop="true"
+            dex:maxZoom="2.0"
+            dex:weight="5"
+            dex:images_array="@array/images"
+            dex:zoom="2.0"
+            dex:speed="40"
+            dex:drawer="scale|translate"
+            android:layout_height="200dp" />
     </it.dex.dexshiftingview.views.DexShiftingLayout>
 </it.dex.dexshiftingview.views.DexChildSwipeRefreshLayout>

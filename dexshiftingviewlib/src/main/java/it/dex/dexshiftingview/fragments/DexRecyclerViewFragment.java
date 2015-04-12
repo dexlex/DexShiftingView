@@ -4,23 +4,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 /**
  * DexShiftingView created by Diego on 20/03/2015.
  */
 public abstract class DexRecyclerViewFragment extends Fragment {
-    private static final String INITIAL_SCROLL_SET = "initialScrollSet";
-    private int initialTopMargin, initialScroll;
-    private boolean isInitialTopMarginSet = false, isInitialScrollSet = false, isListenerSet = false;
+    private int initialTopMargin, currentScroll;
+    private boolean isInitialTopMarginSet = false, isListenerSet = false, isScrollSet = false;
     private RecyclerView.OnScrollListener onScrollListener;
 
     public abstract RecyclerView getRecyclerView();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        isInitialScrollSet = savedInstanceState != null && savedInstanceState.getBoolean(INITIAL_SCROLL_SET, false);
-    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -31,24 +25,8 @@ public abstract class DexRecyclerViewFragment extends Fragment {
             setInitialTopMargin(initialTopMargin);
         if (!isListenerSet)
             setOnScrollListener(onScrollListener);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!isInitialScrollSet)
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    setScroll();
-                }
-            }, 10);
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putBoolean(INITIAL_SCROLL_SET, isInitialScrollSet);
+        if (!isScrollSet)
+            setCurrentScroll(currentScroll);
     }
 
     public void setInitialTopMargin(int initialTopMargin) {
@@ -68,17 +46,16 @@ public abstract class DexRecyclerViewFragment extends Fragment {
         }
     }
 
-    private void setScroll() {
-        if (getRecyclerView() != null) {
-            getRecyclerView().scrollBy(0, initialScroll);
-            isInitialScrollSet = true;
-        }
-    }
-
-    public void setInitialScroll(int initialScroll) {
-        if (this.initialScroll != initialScroll) {
-            this.initialScroll = initialScroll;
-            isInitialScrollSet = false;
-        }
+    public void setCurrentScroll(final int currentScroll) {
+        this.currentScroll = currentScroll;
+        isScrollSet=false;
+        if (getRecyclerView() != null)
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    getRecyclerView().scrollBy(0, currentScroll);
+                    isScrollSet = true;
+                }
+            });
     }
 }

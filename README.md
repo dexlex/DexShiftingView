@@ -33,10 +33,6 @@ or the following using Maven:
 
 ##Simple
 
-This section show you how to use the provided views without questioning how it works.
-
-This library provides
-
 Credits
 -------
 

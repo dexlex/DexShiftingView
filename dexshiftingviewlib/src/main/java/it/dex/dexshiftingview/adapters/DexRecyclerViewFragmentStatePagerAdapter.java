@@ -2,6 +2,7 @@ package it.dex.dexshiftingview.adapters;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.ViewGroup;
 
@@ -13,12 +14,16 @@ import it.dex.dexshiftingview.fragments.DexRecyclerViewFragment;
  */
 public abstract class DexRecyclerViewFragmentStatePagerAdapter<T extends DexRecyclerViewFragment> extends DexFragmentStatePagerAdapter<T> {
     private SparseArray<Integer> currentScrolls = new SparseArray<>();
-    private int initialTopMargin, initialScroll;
+    private int initialTopMargin, currentScroll = 0;
     private RecyclerView.OnScrollListener onScrollListener;
     private boolean onScrollListenerSet = false;
 
     public DexRecyclerViewFragmentStatePagerAdapter(FragmentManager fm) {
         super(fm);
+        int count = getCount();
+        for (int i = 0; i < count; i++) {
+            currentScrolls.put(i, currentScroll);
+        }
     }
 
     @Override
@@ -34,15 +39,13 @@ public abstract class DexRecyclerViewFragmentStatePagerAdapter<T extends DexRecy
             fragment.setOnScrollListener(onScrollListener);
             onScrollListenerSet = true;
         }
-        fragment.setInitialScroll(initialScroll);
-        currentScrolls.put(position, initialScroll);
+        int fragmentCurrentScroll = currentScrolls.get(currentScrolls.keyAt(position));
+        if (fragmentCurrentScroll != currentScroll) {
+            Log.d("SCROLL_BY", currentScroll - fragmentCurrentScroll+ "");
+            fragment.setCurrentScroll(currentScroll - fragmentCurrentScroll);
+            currentScrolls.put(position, currentScroll);
+        }
         return fragment;
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
-        currentScrolls.remove(position);
     }
 
     public void setInitialTopMargin(int initialTopMargin) {
@@ -57,7 +60,7 @@ public abstract class DexRecyclerViewFragmentStatePagerAdapter<T extends DexRecy
         this.onScrollListener = onScrollListener;
     }
 
-    public void setInitialScroll(int initialScroll) {
-        this.initialScroll = initialScroll;
+    public void setCurrentScroll(int currentScroll) {
+        this.currentScroll = currentScroll;
     }
 }

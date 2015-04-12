@@ -28,9 +28,15 @@ public class AppConfiguration {
 
     private AppConfiguration() {
         sections.add(new Section("DexShiftingLayout"));
-        sections.add(new Section("VideoView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.RECYCLER_VIEW));
+        sections.add(new Section("VideoView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.RECYCLER_VIEW, Section.SUBSECTION.VIDEO_VIEW));
+        sections.add(new Section("ImageView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.RECYCLER_VIEW, Section.SUBSECTION.IMAGE_VIEW));
+        sections.add(new Section("Multiple Images", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.RECYCLER_VIEW, Section.SUBSECTION.IMAGES));
+        sections.add(new Section("DexMovingImageView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.RECYCLER_VIEW, Section.SUBSECTION.DEXMOVINGIMAGEVIEW));
         sections.add(new Section("DexShiftingPagerLayout"));
-        sections.add(new Section("VideoView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.VIEW_PAGER));
+        sections.add(new Section("VideoView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.VIEW_PAGER, Section.SUBSECTION.VIDEO_VIEW));
+        sections.add(new Section("ImageView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.VIEW_PAGER, Section.SUBSECTION.IMAGE_VIEW));
+        sections.add(new Section("Multiple Images", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.VIEW_PAGER, Section.SUBSECTION.IMAGES));
+        sections.add(new Section("DexMovingImageView", Section.SECTION_TYPE.SUBSECTION, Section.SECTIONS.VIEW_PAGER, Section.SUBSECTION.DEXMOVINGIMAGEVIEW));
     }
 
     public static AppConfiguration get() {

@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.VideoView;
 
-import it.dex.dexpageradapterlib.DexFragmentStatePagerAdapter;
 import it.dex.dexshiftingview.R;
 import it.dex.dexshiftingview.adapters.DexRecyclerViewFragmentStatePagerAdapter;
+import it.dex.dexshiftingview.data.Section;
 import it.dex.dexshiftingview.interfaces.OnShiftListener;
 import it.dex.dexshiftingview.views.DexShiftingPagerLayout;
 
@@ -20,12 +20,13 @@ import it.dex.dexshiftingview.views.DexShiftingPagerLayout;
  * DexShiftingView created by Diego on 06/03/2015.
  */
 public class ContentPagerFragment extends Fragment {
+    private Section.SUBSECTION subsection;
     private OnShiftListener onShiftListener;
     private MyPagerAdapter adapter;
-    private int scroll;
 
-    public static ContentPagerFragment newInstance() {
+    public static ContentPagerFragment newInstance(Section.SUBSECTION subsection) {
         ContentPagerFragment contentFragment = new ContentPagerFragment();
+        contentFragment.subsection = subsection;
         return contentFragment;
     }
 
@@ -40,7 +41,22 @@ public class ContentPagerFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_pager_content, container, false);
+        int layout = 0;
+        switch (subsection) {
+            case VIDEO_VIEW:
+                layout = R.layout.fragment_pager_content_video_view;
+                break;
+            case IMAGE_VIEW:
+                layout = R.layout.fragment_pager_content_image_view;
+                break;
+            case IMAGES:
+                layout = R.layout.fragment_pager_content_images;
+                break;
+            case DEXMOVINGIMAGEVIEW:
+                layout = R.layout.fragment_pager_content_dexmovingimageview;
+                break;
+        }
+        return inflater.inflate(layout, container, false);
     }
 
     @Override
@@ -49,17 +65,16 @@ public class ContentPagerFragment extends Fragment {
         adapter = new MyPagerAdapter(getChildFragmentManager());
         DexShiftingPagerLayout dexShiftingView = (DexShiftingPagerLayout) view.findViewById(R.id.dexshiftingview);
         dexShiftingView.setOnShiftListener(onShiftListener);
-        dexShiftingView.setToolbar(onShiftListener.getToolbar());
+        dexShiftingView.setToolbar(onShiftListener.getToolbar(), getResources().getColor(R.color.primary), getResources().getColor(R.color.secondary));
         dexShiftingView.setAdapter(adapter);
-        VideoView videoView = (VideoView) view.findViewById(R.id.video);
-        videoView.setVideoURI(Uri.parse("android.resource://" + getActivity().getPackageName() + "/"
-                + R.raw.video));
-        videoView.start();
-    }
-
-    public void setScroll(int scroll) {
-        this.scroll = scroll;
-        adapter.notifyDataSetChanged();
+        switch (subsection) {
+            case VIDEO_VIEW:
+                VideoView videoView = (VideoView) view.findViewById(R.id.video);
+                videoView.setVideoURI(Uri.parse("android.resource://" + getActivity().getPackageName() + "/"
+                        + R.raw.video));
+                videoView.start();
+                break;
+        }
     }
 
     private class MyPagerAdapter extends DexRecyclerViewFragmentStatePagerAdapter<DexRecyclerViewFragment> {
@@ -70,11 +85,6 @@ public class ContentPagerFragment extends Fragment {
         @Override
         public DexRecyclerViewFragment getFragment(int i) {
             return ItemFragment.newInstance();
-        }
-
-        @Override
-        public void updateAddedItems(DexRecyclerViewFragment dexRecyclerViewFragment, int i) {
-            dexRecyclerViewFragment.getRecyclerView().getLayoutManager().scrollToPosition(scroll);
         }
 
         @Override

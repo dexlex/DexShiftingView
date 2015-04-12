@@ -10,10 +10,11 @@
         dex:initial_top_margin="200dp"
         android:layout_height="match_parent">
 
-        <VideoView
-            android:id="@+id/video"
+        <ImageView
             dex:weight="5"
+            android:src="@drawable/material"
             android:layout_width="fill_parent"
+            android:scaleType="fitStart"
             android:layout_height="fill_parent" />
     </it.dex.dexshiftingview.views.DexShiftingLayout>
 </it.dex.dexshiftingview.views.DexChildSwipeRefreshLayout>

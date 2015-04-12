@@ -26,15 +26,17 @@ public class Section implements Serializable {
     private boolean checked;
     private SECTION_TYPE sectionType;
     private SECTIONS sections;
+    private SUBSECTION subsection;
 
-    public Section(String name, SECTION_TYPE sectionType, SECTIONS sections) {
+    public Section(String name, SECTION_TYPE sectionType, SECTIONS sections, SUBSECTION subsection) {
         setName(name);
         setSectionType(sectionType);
         setSections(sections);
+        setSubsection(subsection);
     }
 
     public Section(String name) {
-        this(name, SECTION_TYPE.HEADER, null);
+        this(name, SECTION_TYPE.HEADER, null, null);
     }
 
     public Section() {
@@ -72,11 +74,23 @@ public class Section implements Serializable {
         this.sections = sections;
     }
 
+    public SUBSECTION getSubsection() {
+        return subsection;
+    }
+
+    public void setSubsection(SUBSECTION subsection) {
+        this.subsection = subsection;
+    }
+
     public enum SECTION_TYPE {
         HEADER, SUBSECTION
     }
 
     public enum SECTIONS {
         RECYCLER_VIEW, VIEW_PAGER
+    }
+
+    public enum SUBSECTION {
+        IMAGE_VIEW, VIDEO_VIEW, IMAGES, DEXMOVINGIMAGEVIEW
     }
 }

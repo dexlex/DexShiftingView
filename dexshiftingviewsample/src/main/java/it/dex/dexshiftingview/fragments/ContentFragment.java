@@ -15,6 +15,7 @@ import android.widget.VideoView;
 
 import it.dex.dexshiftingview.R;
 import it.dex.dexshiftingview.adapter.TestAdapter;
+import it.dex.dexshiftingview.data.Section;
 import it.dex.dexshiftingview.interfaces.OnShiftListener;
 import it.dex.dexshiftingview.views.DexShiftingLayout;
 
@@ -24,9 +25,11 @@ import it.dex.dexshiftingview.views.DexShiftingLayout;
 public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private OnShiftListener onShiftListener;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private Section.SUBSECTION subsection;
 
-    public static ContentFragment newInstance() {
+    public static ContentFragment newInstance(Section.SUBSECTION subsection) {
         ContentFragment contentFragment = new ContentFragment();
+        contentFragment.subsection = subsection;
         return contentFragment;
     }
 
@@ -41,7 +44,22 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_content, container, false);
+        int layout = 0;
+        switch (subsection) {
+            case VIDEO_VIEW:
+                layout = R.layout.fragment_content_video_view;
+                break;
+            case IMAGE_VIEW:
+                layout = R.layout.fragment_content_image_view;
+                break;
+            case IMAGES:
+                layout = R.layout.fragment_content_images;
+                break;
+            case DEXMOVINGIMAGEVIEW:
+                layout = R.layout.fragment_content_dexmovingimageview;
+                break;
+        }
+        return inflater.inflate(layout, container, false);
     }
 
     @Override
@@ -52,14 +70,18 @@ public class ContentFragment extends Fragment implements SwipeRefreshLayout.OnRe
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary));
         DexShiftingLayout dexShiftingView = (DexShiftingLayout) view.findViewById(R.id.dexshiftingview);
         dexShiftingView.setOnShiftListener(onShiftListener);
-        dexShiftingView.setToolbar(onShiftListener.getToolbar());
+        dexShiftingView.setToolbar(onShiftListener.getToolbar(), getResources().getColor(R.color.primary), getResources().getColor(R.color.secondary));
         RecyclerView recyclerView = dexShiftingView.getScrollingView();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new TestAdapter());
-        VideoView videoView = (VideoView) view.findViewById(R.id.video);
-        videoView.setVideoURI(Uri.parse("android.resource://" + getActivity().getPackageName() + "/"
-                + R.raw.video));
-        videoView.start();
+        switch (subsection) {
+            case VIDEO_VIEW:
+                VideoView videoView = (VideoView) view.findViewById(R.id.video);
+                videoView.setVideoURI(Uri.parse("android.resource://" + getActivity().getPackageName() + "/"
+                        + R.raw.video));
+                videoView.start();
+                break;
+        }
     }
 
     @Override

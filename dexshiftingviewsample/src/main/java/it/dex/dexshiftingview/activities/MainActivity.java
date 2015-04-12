@@ -95,10 +95,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         Fragment fragment = null;
         switch (section.getSections()) {
             case RECYCLER_VIEW:
-                fragment = ContentFragment.newInstance();
+                fragment = ContentFragment.newInstance(section.getSubsection());
                 break;
             case VIEW_PAGER:
-                fragment = ContentPagerFragment.newInstance();
+                fragment = ContentPagerFragment.newInstance(section.getSubsection());
                 break;
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();

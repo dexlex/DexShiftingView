@@ -6,7 +6,6 @@ import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -16,7 +15,6 @@ import android.view.View;
 import it.dex.dexshiftingview.adapters.DexRecyclerViewFragmentStatePagerAdapter;
 import it.dex.dexshiftingview.fragments.DexRecyclerViewFragment;
 import it.dex.dexshiftingview.utils.DexOnScrollListener;
-import it.dex.dexshiftingview.utils.DexToolbarManager;
 import it.dex.dexshiftingviewlib.R;
 
 /**
@@ -83,6 +81,7 @@ public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPag
     @Override
     public void onPageSelected(int position) {
         if (adapter != null) {
+            Log.d("CURRENT_SCROLLS", adapter.getCurrentScrolls().toString());
             for (int i = 0; i < adapter.getFragmentSparseArray().size(); i++) {
                 DexRecyclerViewFragment fragment = adapter.getFragmentSparseArray().get(adapter.getFragmentSparseArray().keyAt(i));
                 RecyclerView recyclerView = fragment.getRecyclerView();
@@ -92,11 +91,9 @@ public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPag
                     recyclerView.setOnScrollListener(null);
                     SparseArray<Integer> currentScrolls = adapter.getCurrentScrolls();
                     int key = currentScrolls.keyAt(i);
-                    int fragmentCurrentScroll = currentScrolls.get(key);
-                    boolean change = currentScroll <= getInitialTopMargin() && fragmentCurrentScroll != currentScroll;
-                    if (change) {
-                        recyclerView.scrollBy(0, currentScroll - fragmentCurrentScroll);
-                        currentScrolls.put(key, currentScroll);
+                    if (currentScroll > getInitialTopMargin()) {
+                        recyclerView.scrollBy(0, (int) (getInitialTopMargin() - currentScroll));
+                        currentScrolls.put(key, (int) getInitialTopMargin());
                     }
                 }
             }
@@ -112,13 +109,13 @@ public class DexShiftingPagerLayout extends AbsShiftingLayout implements ViewPag
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        adapter.setInitialScroll(currentScroll);
+        adapter.setCurrentScroll(currentScroll);
         for (int i = 0; i < adapter.getFragmentSparseArray().size(); i++) {
             SparseArray<Integer> currentScrolls = adapter.getCurrentScrolls();
             int key = currentScrolls.keyAt(i);
             if (adapter.getFragmentSparseArray().keyAt(i) != viewPager.getCurrentItem()) {
                 DexRecyclerViewFragment fragment = adapter.getFragmentSparseArray().get(adapter.getFragmentSparseArray().keyAt(i));
-                if (fragment != null && fragment.getRecyclerView() != null && fragment.getRecyclerView().getLayoutManager() != null) {
+                if (fragment != null && fragment.getRecyclerView() != null) {
                     if (currentScroll <= getInitialTopMargin()) {
                         fragment.getRecyclerView().scrollBy(0, dy);
                         currentScrolls.put(key, currentScrolls.get(key) + dy);

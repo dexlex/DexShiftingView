@@ -27,11 +27,13 @@ public class DexToolbarManager {
     }
 
     public void setToolbarBackgroundColor(int toolbarBackgroundColor) {
-        this.toolbarBackgroundColor = toolbarBackgroundColor;
+        if (toolbarBackgroundColor != 0)
+            this.toolbarBackgroundColor = toolbarBackgroundColor;
     }
 
     public void setToolbarTitleColor(int toolbarTitleColor) {
-        this.toolbarTitleColor = toolbarTitleColor;
+        if (toolbarTitleColor != 0)
+            this.toolbarTitleColor = toolbarTitleColor;
     }
 
     public void update(int dy, int shift, float topDistance, float progress, boolean isScrollingUpwards) {
